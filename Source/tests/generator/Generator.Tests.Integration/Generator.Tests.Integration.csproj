@@ -27,6 +27,12 @@
 	<ItemGroup>
 	</ItemGroup>
 	<ItemGroup>
+	  <None Include="..\regress\regress-sharp-api.xml">
+	    <Link>regress-sharp-api.xml</Link>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	<ItemGroup>
 		<None Update="glib-api.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -41,9 +47,8 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\gio\gio.csproj" />
-	  <ProjectReference Include="..\..\glib\glib.csproj" />
-	  <ProjectReference Include="..\..\generator\generator.csproj" />
-	  <ProjectReference Include="regress\generated\Regress\Regress.csproj" />
+	  <ProjectReference Include="..\..\..\gio\gio.csproj" />
+	  <ProjectReference Include="..\..\..\glib\glib.csproj" />
+	  <ProjectReference Include="..\..\..\generator\generator.csproj" />
 	</ItemGroup>
 </Project>
