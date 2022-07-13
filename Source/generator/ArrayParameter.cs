@@ -224,11 +224,7 @@ namespace GtkSharp.Generation
                 if (CSType == MarshalType && !FixedArrayLength.HasValue)
                 {
                     var result = new List<string>();
-                    if (PassAs == "out")
-                    {
-                        result.Add($"{count_param.CSType} cnt_{CallName};");
-                    }
-                    else
+                    if (PassAs != "out")
                     {
                         result.Add($"{count_param.CSType} cnt_{CallName} = {CountCast}({CallName} == null ? 0 : {CallName}.Length);");
                     }
@@ -246,10 +242,30 @@ namespace GtkSharp.Generation
             get
             {
                 string pass_ass = string.IsNullOrEmpty(count_param.PassAs) ? "" : $"{count_param.PassAs} ";
-                if (invert)
-                    return $"{pass_ass}cnt_{CallName},  {base.CallString}";
+                string count_param_call;
+
+                if (count_param.PassAs == "out")
+                {
+                    count_param_call = $"{pass_ass}{count_param.MarshalType} cnt_{CallName}";
+                }
+                else if (count_param.PassAs == "ref")
+                {
+                    count_param_call = $"{pass_ass}cnt_{CallName}";
+                }
                 else
-                    return $"{base.CallString}, {pass_ass}cnt_{CallName}";
+                {
+                    var call_name = $"cnt_{CallName}";
+                    if (count_param.Generatable is LPUGen)
+                    {
+                        call_name = $"(uint){call_name}";
+                    }
+                    count_param_call = count_param.Generatable.CallByName(call_name);
+                }
+
+                if (invert)
+                    return $"{count_param_call},  {base.CallString}";
+                else
+                    return $"{base.CallString}, {count_param_call}";
             }
         }
 

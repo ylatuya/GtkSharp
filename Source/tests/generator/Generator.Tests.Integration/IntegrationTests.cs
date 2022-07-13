@@ -126,7 +126,7 @@ namespace Generator.Tests
                 Console.WriteLine(diag);
             }
             Assert.AreEqual(0, errors.Count());
-            Assert.AreEqual(3, warnings.Count());
+            Assert.AreEqual(4, warnings.Count());
         }
     }
 }
