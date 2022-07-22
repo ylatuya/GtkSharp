@@ -1,45 +1,10 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
-using Regress;
+﻿using Regress;
 using static Regress.Global;
 
 namespace Generator.Tests
 {
-    public class ArrayTests
+    public class ArrayParameters
     {
-
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            var builddir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
-            builddir = Path.Combine(builddir, "..", "..", "..", "..", "..", "..", "..", "builddir");
-            string prefix;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                prefix = Path.GetFullPath(Path.Combine(builddir, "prefix", "bin"));
-            }
-            else
-            {
-                prefix = Path.GetFullPath(Path.Combine(builddir, "prefix", "lib"));
-
-            }
-            var regressDir = Path.GetFullPath(Path.Combine(builddir, "Source", "tests", "generator", "regress"));
-            NativeLibraryResolver.Init(new List<string>
-            {
-                prefix,
-                regressDir
-            });
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            try
-            {
-            }
-            catch { }
-        }
-
         [Ignore("FIXME: wrapper uses PtrToStringGFree with unowned input strings")]
         [Test]
         public void Array_Callback()
