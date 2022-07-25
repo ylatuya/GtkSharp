@@ -90,7 +90,7 @@ namespace Generator.Tests
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    libraryName = osToNameDict[OSPlatform.Windows];
+                    libraryName = osToNameDict[OSPlatform.Linux];
                 }
                 else
                 {
