@@ -5,7 +5,6 @@ namespace Generator.Tests
 {
     public class ArrayParameters
     {
-        [Ignore("FIXME: wrapper uses PtrToStringGFree with unowned input strings")]
         [Test]
         public void Array_Callback()
         {
