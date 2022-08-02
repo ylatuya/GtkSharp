@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using Regress;
 
 namespace Generator.Tests
 {
@@ -26,6 +27,8 @@ namespace Generator.Tests
                 prefix,
                 regressDir
             });
+            // Register type
+            GLib.GType.Register(TestObj.GType, typeof(TestObj));
         }
     }
 }

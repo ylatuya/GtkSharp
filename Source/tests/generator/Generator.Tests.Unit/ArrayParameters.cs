@@ -56,7 +56,6 @@ namespace Generator.Tests
             Assert.AreEqual(4, rets[1]);
         }
 
-        [Ignore("FIXME: Regress types not registered")]
         [Test]
         public void Array_FixedOut_Objects()
         {
