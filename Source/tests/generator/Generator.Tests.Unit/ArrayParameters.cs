@@ -20,7 +20,7 @@ namespace Generator.Tests
 
             Assert.IsNotNull(res);
             var notNullRes = res!.Value;
-            Assert.AreEqual(2, ret);
+            Assert.That(ret, Is.EqualTo(2));
         }
 
         // This test can't work with the bindings since it expects the callback
@@ -50,17 +50,17 @@ namespace Generator.Tests
 
             var ret = TestArrayInoutCallback(cb);
 
-            Assert.AreEqual(3, ret);
-            Assert.AreEqual(2, callbackCount);
-            Assert.AreEqual(5, rets[0]);
-            Assert.AreEqual(4, rets[1]);
+            Assert.That(ret, Is.EqualTo(3));
+            Assert.That(callbackCount, Is.EqualTo(2));
+            Assert.That(rets[0], Is.EqualTo(5));
+            Assert.That(rets[1], Is.EqualTo(4));
         }
 
         [Test]
         public void Array_FixedOut_Objects()
         {
             var res = TestArrayFixedOutObjects();
-            Assert.AreEqual(2, res.Length);
+            Assert.That(res.Length, Is.EqualTo(2));
             Assert.IsTrue(res[0] is TestObj);
             Assert.IsTrue(res[1] is TestObj);
         }
@@ -70,7 +70,7 @@ namespace Generator.Tests
         {
             var ints = new int[5] { 0, 1, 2, 3, 4 };
             var res = TestArrayFixedSizeIntIn(ints);
-            Assert.AreEqual(1 + 2 + 3 + 4, res);
+            Assert.That(res, Is.EqualTo(1 + 2 + 3 + 4));
         }
 
         [Test]
@@ -78,12 +78,12 @@ namespace Generator.Tests
         {
             var res = TestArrayFixedSizeIntOut();
 
-            Assert.AreEqual(5, res.Length);
-            Assert.AreEqual(0, res[0]);
-            Assert.AreEqual(1, res[1]);
-            Assert.AreEqual(2, res[2]);
-            Assert.AreEqual(3, res[3]);
-            Assert.AreEqual(4, res[4]);
+            Assert.That(res.Length, Is.EqualTo(5));
+            Assert.That(res[0], Is.EqualTo(0));
+            Assert.That(res[1], Is.EqualTo(1));
+            Assert.That(res[2], Is.EqualTo(2));
+            Assert.That(res[3], Is.EqualTo(3));
+            Assert.That(res[4], Is.EqualTo(4));
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Generator.Tests
         {
             var ints = new sbyte[5] { 0, 1, 2, 3, 4 };
             var res = TestArrayGint8In(ints);
-            Assert.AreEqual(1 + 2 + 3 + 4, res);
+            Assert.That(res, Is.EqualTo(1 + 2 + 3 + 4));
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace Generator.Tests
         {
             var ints = new short[5] { 0, 1, 2, 3, 4 };
             var res = TestArrayGint16In(ints);
-            Assert.AreEqual(1 + 2 + 3 + 4, res);
+            Assert.That(res, Is.EqualTo(1 + 2 + 3 + 4));
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace Generator.Tests
         {
             var ints = new int[5] { 0, 1, 2, 3, 4 };
             var res = TestArrayGint32In(ints);
-            Assert.AreEqual(1 + 2 + 3 + 4, res);
+            Assert.That(res, Is.EqualTo(1 + 2 + 3 + 4));
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace Generator.Tests
         {
             var ints = new long[5] { 0, 1, 2, 3, 4 };
             var res = TestArrayGint64In(ints);
-            Assert.AreEqual(1 + 2 + 3 + 4, res);
+            Assert.That(res, Is.EqualTo(1 + 2 + 3 + 4));
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace Generator.Tests
         {
             var gTypes = new GLib.GType[3] { FooBoxed.GType, FooBuffer.GType, FooObject.GType };
             var res = TestArrayGtypeIn(gTypes);
-            Assert.AreEqual("[RegressFooBoxed,RegressFooBuffer,RegressFooObject,]", res);
+            Assert.That(res, Is.EqualTo("[RegressFooBoxed,RegressFooBuffer,RegressFooObject,]"));
         }
 
         [Test]
@@ -131,14 +131,14 @@ namespace Generator.Tests
         {
             var ints = new int[5] { 0, 1, 2, 3, 4 };
             var res = TestArrayIntIn(ints);
-            Assert.AreEqual(1 + 2 + 3 + 4, res);
+            Assert.That(res, Is.EqualTo(1 + 2 + 3 + 4));
         }
 
         [Test]
         public void Array_int_Out()
         {
             var ints = TestArrayIntOut();
-            Assert.AreEqual(new int[5] { 0, 1, 2, 3, 4 }, ints);
+            Assert.That(ints, Is.EqualTo(new int[5] { 0, 1, 2, 3, 4 }));
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace Generator.Tests
         {
             var ints = new int[5] { 0, 1, 2, 3, 4 };
             TestArrayIntInout(ref ints);
-            Assert.AreEqual(new int[4] { 2, 3, 4, 5 }, ints);
+            Assert.That(ints, Is.EqualTo(new int[4] { 2, 3, 4, 5 }));
         }
 
         [Test]
@@ -189,10 +189,10 @@ namespace Generator.Tests
         public void Array_Struct_Out()
         {
             TestStructA[] structs = TestArrayStructOut();
-            Assert.AreEqual(3, structs.Length);
-            Assert.AreEqual(22, structs[0].SomeInt);
-            Assert.AreEqual(33, structs[1].SomeInt);
-            Assert.AreEqual(44, structs[2].SomeInt);
+            Assert.That(structs.Length, Is.EqualTo(3));
+            Assert.That(structs[0].SomeInt, Is.EqualTo(22));
+            Assert.That(structs[1].SomeInt, Is.EqualTo(33));
+            Assert.That(structs[2].SomeInt, Is.EqualTo(44));
         }
 
         [Ignore("FIXME: caller-allocates not implemented")]
@@ -200,22 +200,22 @@ namespace Generator.Tests
         public void Array_Struct_Out_CallerAlloc()
         {
             TestStructA[] structs = TestArrayStructOutCallerAlloc();
-            Assert.AreEqual(3, structs.Length);
-            Assert.AreEqual(22, structs[0].SomeInt);
-            Assert.AreEqual(33, structs[1].SomeInt);
-            Assert.AreEqual(44, structs[2].SomeInt);
+            Assert.That(structs.Length, Is.EqualTo(3));
+            Assert.That(structs[0].SomeInt, Is.EqualTo(22));
+            Assert.That(structs[1].SomeInt, Is.EqualTo(33));
+            Assert.That(structs[2].SomeInt, Is.EqualTo(44));
         }
 
         [Test]
         public void Array_Struct_Out_Container()
         {
             TestStructA[] structs = TestArrayStructOutContainer();
-            Assert.AreEqual(5, structs.Length);
-            Assert.AreEqual(11, structs[0].SomeInt);
-            Assert.AreEqual(13, structs[1].SomeInt);
-            Assert.AreEqual(17, structs[2].SomeInt);
-            Assert.AreEqual(19, structs[3].SomeInt);
-            Assert.AreEqual(23, structs[4].SomeInt);
+            Assert.That(structs.Length, Is.EqualTo(5));
+            Assert.That(structs[0].SomeInt, Is.EqualTo(11));
+            Assert.That(structs[1].SomeInt, Is.EqualTo(13));
+            Assert.That(structs[2].SomeInt, Is.EqualTo(17));
+            Assert.That(structs[3].SomeInt, Is.EqualTo(19));
+            Assert.That(structs[4].SomeInt, Is.EqualTo(23));
         }
 
         [Test]
@@ -223,11 +223,11 @@ namespace Generator.Tests
         {
             var res = TestArrayStructOutFullFixed();
 
-            Assert.AreEqual(4, res.Length);
-            Assert.AreEqual(2, res[0].SomeInt);
-            Assert.AreEqual(3, res[1].SomeInt);
-            Assert.AreEqual(5, res[2].SomeInt);
-            Assert.AreEqual(7, res[3].SomeInt);
+            Assert.That(res.Length, Is.EqualTo(4));
+            Assert.That(res[0].SomeInt, Is.EqualTo(2));
+            Assert.That(res[1].SomeInt, Is.EqualTo(3));
+            Assert.That(res[2].SomeInt, Is.EqualTo(5));
+            Assert.That(res[3].SomeInt, Is.EqualTo(7));
         }
 
         [Ignore("FIXME: segfault, copy is needed with transfer none")]
@@ -235,10 +235,10 @@ namespace Generator.Tests
         public void Array_Struct_Out_None()
         {
             TestStructA[] structs = TestArrayStructOutNone();
-            Assert.AreEqual(3, structs.Length);
-            Assert.AreEqual(111, structs[0].SomeInt);
-            Assert.AreEqual(222, structs[1].SomeInt);
-            Assert.AreEqual(333, structs[2].SomeInt);
+            Assert.That(structs.Length, Is.EqualTo(3));
+            Assert.That(structs[0].SomeInt, Is.EqualTo(111));
+            Assert.That(structs[1].SomeInt, Is.EqualTo(222));
+            Assert.That(structs[2].SomeInt, Is.EqualTo(333));
         }
     }
 }
