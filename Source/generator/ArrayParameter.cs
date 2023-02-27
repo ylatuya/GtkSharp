@@ -48,25 +48,41 @@ namespace GtkSharp.Generation
                 ArrayLengthParamIndex = -1;
             }
 
+            generatable = ((Parameter)this).Generatable;
+
             if (IsString)
             {
                 generatable = new ArrayStringGen(CType, this);
             }
-            else
+            else if (Generatable is StructBase)
             {
-                generatable = base.Generatable;
+                if (PassAs == string.Empty && Owned)
+                {
+                    if (FixedArrayLength != null)
+                    {
+                        generatable = new StructArrayGen(CType, CSType, FixedArrayLength.Value);
+                    }
+                    else
+                    {
+                        generatable = new StructArrayGen(CType, CSType, 0);
+                    }
+                }
             }
         }
 
         public int ArrayLengthParamIndex { get; }
 
-        public override IGeneratable Generatable => generatable;
+        public override IGeneratable Generatable => generatable ?? base.Generatable;
 
         public override string MarshalType
         {
             get
             {
-                if (Generatable is StructBase)
+                if (Generatable is StructArrayGen && PassAs == string.Empty && Owned)
+                {
+                    return "IntPtr";
+                }
+                else if (Generatable is StructBase)
                 {
                     return CSType;
                 }
@@ -87,7 +103,7 @@ namespace GtkSharp.Generation
         {
             get
             {
-                if (!IsString && FixedArrayLength > 0)
+                if (MarshalType != "IntPtr" && FixedArrayLength > 0)
                 {
                     return $"[MarshalAs(UnmanagedType.LPArray, SizeConst={FixedArrayLength})]{base.NativeSignature}";
                 }
@@ -104,7 +120,7 @@ namespace GtkSharp.Generation
         {
             get
             {
-                if (IsString)
+                if (MarshalType == "IntPtr")
                 {
                     return base.Prepare;
                 }
@@ -177,10 +193,11 @@ namespace GtkSharp.Generation
         {
             get
             {
-                if (IsString)
+                if (MarshalType == "IntPtr")
                 {
                     return base.Finish;
                 }
+
                 if (CSType == MarshalType)
                 {
                     return new string[0];
@@ -326,7 +343,7 @@ namespace GtkSharp.Generation
             get
             {
                 string nativeSignature = base.NativeSignature;
-                if (!IsString)
+                if (MarshalType != "IntPtr")
                 {
                     nativeSignature = $"[MarshalAs(UnmanagedType.LPArray, SizeParamIndex={count_index})]{nativeSignature}";
                 }

@@ -451,6 +451,74 @@ namespace GLib
 
             return mem;
         }
+
+        public static IntPtr StructArrayToIntPtrStructArray<T>(T[] inputArray)
+        {
+            int structSize = Marshal.SizeOf(typeof(T));
+            IntPtr mem = Malloc((ulong)(inputArray.Length * structSize));
+            for (int i = 0; i < inputArray.Length; i++)
+            {
+                Marshal.StructureToPtr(inputArray[i], mem + i * structSize, false);
+            }
+            return mem;
+        }
+
+        public static T[] StructArrayFromIntPtrStructArray<T>(IntPtr array, int length)
+        {
+            var res = new T[length];
+            int structSize = Marshal.SizeOf(typeof(T));
+
+            for (int i = 0; i < length; i++)
+            {
+                res[i] = Marshal.PtrToStructure<T>(array + i * structSize);
+            }
+
+            return res;
+        }
+
+        public static T[] ArrayFromIntPtrArray<T>(IntPtr array, int? length, bool owned, Func<IntPtr, T> fromNativeFunc)
+        {
+            int count = 0;
+            var res = new List<T>();
+            while (true)
+            {
+                if (count == length)
+                {
+                    break;
+                }
+                IntPtr s = Marshal.ReadIntPtr(array, count++ * IntPtr.Size);
+                if (length == null && s == IntPtr.Zero)
+                {
+                    break;
+                }
+
+                res.Add(fromNativeFunc(s));
+            }
+            return res.ToArray();
+        }
+
+        //public static IntPtr ArrayToIntPtrArray<TType, TMarshalType>(TType[] array, bool nullTerminated, Func<TType, TMarshalType> toNativeFunc)
+        //{
+        //    int size = array.Length;
+        //    if (nullTerminated)
+        //    {
+        //        size++;
+        //    }
+        //    IntPtr mem = Marshal.AllocHGlobal(size * IntPtr.Size);
+
+        //    for (int i = 0; i < array.Length; i++)
+        //    {
+        //        IntPtr structPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(T)));
+        //        Marshal.StructureToPtr(InputArray[i], structPtr, false);
+        //        // jump to next pointer
+        //        Marshal.WriteIntPtr(mem, structPtr);
+        //        mem = (IntPtr)((long)mem + intPtrSize);
+        //    }
+        //    // null terminate
+        //    Marshal.WriteIntPtr(mem, IntPtr.Zero);
+
+        //    return mem;
+        //}
     }
 }
 

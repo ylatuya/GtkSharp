@@ -163,7 +163,7 @@ namespace Generator.Tests
             TestArrayStaticInInt(ints);
         }
 
-        [Ignore("FIXME: Transfer ful crash, copy needed")]
+
         [Test]
         public void Array_Struct_In_Full()
         {
@@ -230,7 +230,6 @@ namespace Generator.Tests
             Assert.That(res[3].SomeInt, Is.EqualTo(7));
         }
 
-        [Ignore("FIXME: segfault, copy is needed with transfer none")]
         [Test]
         public void Array_Struct_Out_None()
         {

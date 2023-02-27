@@ -526,11 +526,12 @@ namespace Regress {
 		}
 
 		[DllImport("regress-1.0", CallingConvention = CallingConvention.Cdecl)]
-		static extern void regress_test_array_struct_in_full([MarshalAs(UnmanagedType.LPArray, SizeParamIndex=1)]Regress.TestStructA[] arr, UIntPtr len);
+		static extern void regress_test_array_struct_in_full(IntPtr arr, UIntPtr len);
 
 		public static void TestArrayStructInFull(Regress.TestStructA[] arr) {
-			ulong len = (ulong)(arr == null ? 0 : arr.Length);
-			regress_test_array_struct_in_full(arr, new UIntPtr ((uint)len));
+			IntPtr native_arr = GLib.Marshaller.StructArrayToIntPtrStructArray(arr);
+			regress_test_array_struct_in_full(native_arr, new UIntPtr ((uint)len));
+			;
 		}
 
 		[DllImport("regress-1.0", CallingConvention = CallingConvention.Cdecl)]

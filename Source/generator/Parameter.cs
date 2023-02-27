@@ -209,7 +209,7 @@ namespace GtkSharp.Generation
                 string type = SymbolTable.Table.GetMarshalType(elem.GetAttribute("type"));
                 if (type == "void" || Generatable is IManualMarshaler)
                     type = "IntPtr";
-                if (IsArray && !(Generatable is ArrayStringGen))
+                if (IsArray && !(Generatable is IManualMarshaler))
                 {
                     type += "[]";
                     type = type.Replace("ref ", "");
