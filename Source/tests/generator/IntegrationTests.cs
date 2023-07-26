@@ -30,5 +30,25 @@ namespace IntegrationTests {
 				);
 			Assert.AreEqual(0, res);
 		}
+
+		[Test]
+		public void GenerateCode_Gio_CodeGenerated() {
+
+			var res = CodeGenerator.GenerateCode(
+				dir: testDir,
+				assembly_name: "gio-sharp",
+				gapidir: testDir,
+				abi_cs_usings: "GLib,Gio",
+				abi_cs_file: "gio-sharp-abi.cs",
+				abi_c_file: "gio-sharp-abi.c",
+				glue_filename: "gio-sharp-glue.c",
+				glue_includes: "gio.h",
+				gluelib_name: "gio-sharp-glue",
+				schema_name: null,
+				filenames: new List<string> { "gio-api.raw" },
+				includes: new List<string> { }
+				);
+			Assert.AreEqual(0, res);
+		}
 	}
 }
