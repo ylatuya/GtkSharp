@@ -229,13 +229,13 @@ namespace GtkSharp.Generation {
 				}
 			}
 
-			if (int.TryParse(value, out int _)) {
+			if (int.TryParse(value, out int out_int)) {
 				return "int";
-			} else if (uint.TryParse(value, out uint __)) {
+			} else if (uint.TryParse(value, out uint out_uint)) {
 				return "uint";
-			} else if (long.TryParse(value, out long ___)) {
+			} else if (long.TryParse(value, out long out_long)) {
 				return "long";
-			} else if (ulong.TryParse(value, out ulong ____)) {
+			} else if (ulong.TryParse(value, out ulong out_ulong)) {
 				return "ulong";
 			} else {
 				throw new Exception($"Can't parse {value}");
